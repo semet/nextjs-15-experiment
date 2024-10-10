@@ -1,16 +1,17 @@
-import { setCookie } from 'cookies-next'
-import { decode, JwtPayload } from 'jsonwebtoken'
+import axios from 'axios'
+import { deleteCookie, setCookie } from 'cookies-next'
+import { decodeJwt } from 'jose'
 
 import { cookieKeys } from '@/configs'
-import { TLoginResponse } from '@/schemas/auth'
+import { loginResponse, TLoginResponse } from '@/schemas/auth'
 
 const { tokenKey, refreshTokenKey } = cookieKeys
 
-export const handleToken = (params: TLoginResponse) => {
+export const handleToken = (params: TLoginResponse, forceRefresh = true) => {
   const { refreshToken, token } = params
-  const decodedToken = decode(token) as JwtPayload
+  const decodedToken = decodeJwt(token)
 
-  const decodedRefreshToken = decode(refreshToken) as JwtPayload
+  const decodedRefreshToken = decodeJwt(refreshToken)
   const tokenExpiration = decodedToken.exp
     ? new Date(decodedToken.exp * 1000)
     : undefined
@@ -22,9 +23,31 @@ export const handleToken = (params: TLoginResponse) => {
     sameSite: 'strict',
     expires: tokenExpiration
   })
+  if (forceRefresh) {
+    setCookie(refreshTokenKey, refreshToken, {
+      sameSite: 'strict',
+      expires: refreshTokenExpiration
+    })
+  }
+}
 
-  setCookie(refreshTokenKey, refreshToken, {
-    sameSite: 'strict',
-    expires: refreshTokenExpiration
-  })
+export const clearToken = () => {
+  deleteCookie(tokenKey)
+  deleteCookie(refreshTokenKey)
+}
+
+export const handleRefreshToken = async (refreshToken: string | undefined) => {
+  try {
+    const response = await axios.post(
+      'http://localhost:8000/student/refresh-token',
+      {
+        refreshToken
+      }
+    )
+
+    const data = loginResponse.parse(response.data)
+    return data
+  } catch {
+    throw new Error('Error refreshing token')
+  }
 }

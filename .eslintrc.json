@@ -20,6 +20,7 @@
           "@/configs/*/*",
           "@/components/*/*",
           "@/contexts/*/*",
+          "@/factories/*/*",
           "@/features/*/*",
           "@/hooks/*/*",
           "@/layouts/*/*",
