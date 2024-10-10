@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
+import { authKey } from '@/factories/mutation'
 import { loginRequest } from '@/features/auth'
 import { loginSchema, TLogin } from '@/schemas/auth'
 import { handleToken } from '@/utils'
@@ -22,7 +23,7 @@ export const LoginForm = () => {
   })
 
   const { mutate } = useMutation({
-    mutationKey: ['login'],
+    mutationKey: authKey.login,
     mutationFn: loginRequest,
     onSuccess: (data) => {
       handleToken(data)

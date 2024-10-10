@@ -9,7 +9,7 @@ const Profile: NextPageWithLayout = () => {
   return (
     <Fragment>
       <Head>
-        <title>Dashboard</title>
+        <title>Profile</title>
       </Head>
       <ProfileWrapper />
     </Fragment>
