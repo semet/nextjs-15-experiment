@@ -59,7 +59,7 @@ axiosClient.interceptors.request.use(
     if (isTokenExpired && !isRefreshTokenExpired) {
       if (!refreshTokenPromise) {
         refreshTokenPromise = axios.post(
-          'http://localhost:8000/student/refresh-token',
+          'http://localhost:8000/admin/refresh-token',
           { refreshToken }
         )
       }

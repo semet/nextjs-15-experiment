@@ -9,10 +9,7 @@ const profileSchema = z.object({
   lastLogin: z.string().datetime().nullable(),
   profileUpdatedAt: z.string().datetime().nullable(),
   createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
-  departmentId: z.string().uuid().nullable(),
-  batchId: z.string().uuid().nullable(),
-  groupId: z.string().uuid()
+  updatedAt: z.string().datetime()
 })
 
 export const dashboardSchema = z.object({
