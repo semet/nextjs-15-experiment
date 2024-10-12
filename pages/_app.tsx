@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { AxiosError } from 'axios'
 import { NextPage } from 'next'
-import { Inter } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import { appWithTranslation } from 'next-i18next'
 import { useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -14,9 +14,9 @@ import { ToastContainer } from 'react-toastify'
 import { ErrorWrapper } from '@/layouts/error'
 import { AppPropsWithLayout } from '@/types/next'
 
-const interFont = Inter({
+const plusFont = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
+  weight: ['200', '300', '400', '500', '600', '700', '800']
 })
 
 const App: NextPage<AppPropsWithLayout> = ({ Component, pageProps }) => {
@@ -61,11 +61,15 @@ const App: NextPage<AppPropsWithLayout> = ({ Component, pageProps }) => {
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary fallback={<ErrorWrapper />}>
         <ToastContainer />
-        <main className={interFont.className}>
+        <main className={plusFont.className}>
           {getLayout(<Component {...pageProps} />)}
         </main>
       </ErrorBoundary>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools
+        initialIsOpen={false}
+        position="left"
+        buttonPosition="bottom-left"
+      />
     </QueryClientProvider>
   )
 }

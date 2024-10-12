@@ -1,4 +1,3 @@
-import React from 'react'
 import { useErrorBoundary } from 'react-error-boundary'
 
 export const ErrorWrapper = () => {
