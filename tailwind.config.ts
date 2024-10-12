@@ -10,7 +10,15 @@ const config: Config = {
     './layouts/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
-  theme: {},
+  theme: {
+    extend: {
+      colors: {
+        primary: '#588bf6',
+        night: '#2a2b47',
+        danger: '#eb0000'
+      }
+    }
+  },
   plugins: [TailwindForm, Typography]
 }
 export default config
