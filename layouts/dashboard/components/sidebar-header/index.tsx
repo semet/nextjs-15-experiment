@@ -6,8 +6,10 @@ export const SidebarHeader = () => {
       <Image
         src="/images/dark-logo.svg"
         alt="logo"
-        width={174}
-        height={70}
+        width={0}
+        height={0}
+        className="h-[70px] w-[174px] object-contain"
+        priority
       />
     </div>
   )

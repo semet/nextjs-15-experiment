@@ -1,6 +1,5 @@
 import { useTranslation } from 'next-i18next'
 
-import { LanguageSwitcher } from '@/components/ui'
 import { useHomepageData } from '@/features/home'
 
 export const Homepage = () => {
@@ -18,8 +17,6 @@ export const Homepage = () => {
       >
         refetch
       </button>
-
-      <LanguageSwitcher />
 
       <pre className="text-5xl">{t('greeting')}</pre>
       {isFetching || isLoading || isRefetching ? (

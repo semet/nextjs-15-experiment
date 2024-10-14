@@ -1,10 +1,31 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { useMutation } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
-import { userMenu } from '@/layouts/dashboard'
+import { authKey } from '@/factories/mutation'
+import { logoutRequest, userMenu } from '@/layouts/dashboard'
+import { clearToken } from '@/utils'
 
 export const UserMenu = () => {
+  const { push } = useRouter()
+
+  const { mutate } = useMutation({
+    mutationKey: authKey.logout,
+    mutationFn: logoutRequest,
+    onSettled: () => {
+      clearToken()
+      push('/auth/login')
+    }
+  })
+  const handleMenuClick = (name: string) => {
+    if (['profile', 'setting'].includes(name.toLowerCase())) {
+      push(`/dashboard/${name.toLowerCase()}`)
+    } else {
+      mutate()
+    }
+  }
   return (
     <Menu>
       {({ open }) => (
@@ -33,7 +54,8 @@ export const UserMenu = () => {
                   <MenuItem
                     key={id}
                     as={'button'}
-                    className="data-[focus]:text-primary flex items-center gap-2 rounded-md px-2 py-2 text-gray-600 first:mt-2 last:mb-2 data-[focus]:bg-blue-50/40"
+                    onClick={() => handleMenuClick(name)}
+                    className="flex items-center gap-2 rounded-md px-2 py-2 text-gray-600 first:mt-2 last:mb-2 data-[focus]:bg-blue-50/40 data-[focus]:text-primary"
                   >
                     <Icon />
                     <span className="text-sm">{name}</span>
