@@ -29,11 +29,15 @@ export async function middleware(request: NextRequest) {
   const isRefreshTokenExpired = refreshTokenExpiration
     ? now > refreshTokenExpiration
     : true
+  const excludedPaths = ['/_next', '/static', '/api', '/favicon.ico']
+  if (excludedPaths.some((path) => nextUrl.pathname.startsWith(path))) {
+    return response // Skip middleware for these paths
+  }
 
   if (isTokenExpired && isRefreshTokenExpired) {
     const url = nextUrl.clone()
     url.pathname = '/auth/login'
-    return !publicPaths.includes(nextUrl.pathname)
+    return !publicPaths.includes(nextUrl.pathname) || nextUrl.pathname === '/'
       ? NextResponse.redirect(url)
       : response
   }
@@ -60,8 +64,11 @@ export async function middleware(request: NextRequest) {
       })
     return response
   }
-}
-
-export const config = {
-  matcher: ['/((?!_next|api/auth).*)(.+)']
+  if (!isTokenExpired && !isRefreshTokenExpired) {
+    const url = nextUrl.clone()
+    url.pathname = '/dashboard'
+    return publicPaths.includes(nextUrl.pathname) || nextUrl.pathname === '/'
+      ? NextResponse.redirect(url)
+      : response
+  }
 }
