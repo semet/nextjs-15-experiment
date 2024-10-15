@@ -19,5 +19,5 @@ const Profile: NextPageWithLayout = () => {
 export default Profile
 
 Profile.getLayout = (page) => {
-  return <DashboardLayout>{page}</DashboardLayout>
+  return <DashboardLayout title="Profile">{page}</DashboardLayout>
 }
