@@ -3,6 +3,7 @@ import { ChangeEvent, useId } from 'react'
 import { Controller, FieldError, get, useFormContext } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
 
+import { CustomOption } from './custom-option'
 import { SelectProps } from './type'
 
 const ReactSelect = dynamic(() => import('react-select'), {
@@ -56,6 +57,7 @@ export const Select = <T extends Record<string, unknown>>(
           return (
             <ReactSelect
               instanceId={id ?? generatedId}
+              components={{ Option: CustomOption }}
               onChange={(newValue, actionMeta) => {
                 if (onChange) {
                   onChange(
@@ -69,10 +71,10 @@ export const Select = <T extends Record<string, unknown>>(
               isSearchable={isSearchable}
               className={twMerge([className])}
               styles={{
-                control: (base) => ({
+                control: (base, state) => ({
                   ...base,
                   borderRadius: '.25rem',
-                  borderColor: error ? '#f43f5e' : '#818cf8',
+                  borderColor: error ? '#f43f5e' : '#d1d5db',
                   textWrap: 'nowrap',
                   fontSize:
                     size === 'sm' ? '14px' : size === 'md' ? '16px' : '18px',
@@ -80,7 +82,11 @@ export const Select = <T extends Record<string, unknown>>(
                   height:
                     size === 'sm' ? '34px' : size === 'md' ? '42px' : '54px',
                   minHeight:
-                    size === 'sm' ? '34px' : size === 'md' ? '42px' : '54px'
+                    size === 'sm' ? '34px' : size === 'md' ? '42px' : '54px',
+                  '&:hover': {
+                    borderColor: state.isFocused ? '#5d86ff' : '#d1d5db'
+                  },
+                  boxShadow: 'none'
                 }),
                 menu: (base) => ({
                   ...base,
@@ -88,6 +94,15 @@ export const Select = <T extends Record<string, unknown>>(
                 }),
                 indicatorSeparator: () => ({
                   display: 'none'
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  color: state.isSelected ? 'black' : 'black',
+                  backgroundColor: state.isSelected
+                    ? 'white'
+                    : state.isFocused
+                      ? '#f3f4f6'
+                      : 'white'
                 })
               }}
               {...rest}

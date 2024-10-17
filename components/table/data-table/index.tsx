@@ -9,11 +9,13 @@ import { AnimatePresence, motion, Variants } from 'framer-motion'
 import Image from 'next/image'
 import { useState } from 'react'
 import { CgSpinner } from 'react-icons/cg'
+import { twMerge } from 'tailwind-merge'
 
 import { defaultPagination } from '@/configs'
 
 import { GlobalFilter } from './global-filter'
 import { PageSize } from './page-size'
+import { Pagination } from './pagination'
 import { Props } from './type'
 
 export const DataTable = <T,>(props: Props<T>) => {
@@ -111,7 +113,10 @@ export const DataTable = <T,>(props: Props<T>) => {
                 <motion.tr
                   key={row.id}
                   variants={rowVariants}
-                  className="border-b border-gray-200 text-sm text-gray-600 last:border-b-0 hover:bg-gray-100"
+                  className={twMerge([
+                    'border-b border-gray-200 text-sm text-gray-600 hover:bg-gray-100',
+                    state?.pagination ? 'last:border-b' : 'last:border-b-0'
+                  ])}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td
@@ -178,6 +183,9 @@ export const DataTable = <T,>(props: Props<T>) => {
           )}
         </AnimatePresence>
       </table>
+      {hasData && !isLoading && state?.pagination && (
+        <Pagination table={table} />
+      )}
     </div>
   )
 }

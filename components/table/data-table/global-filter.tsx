@@ -27,7 +27,7 @@ export const GlobalFilter = <T,>(props: GlobalFilterProps<T>) => {
   }, [watchKeyword])
   return (
     <FormProvider {...formMethods}>
-      <form>
+      <form className="w-full md:w-auto">
         <TextInput
           type="text"
           name="keyword"

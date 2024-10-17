@@ -27,7 +27,7 @@ export const PageSize = <T,>(props: PageSizeProps<T>) => {
   }, [watchPageSize])
   return (
     <FormProvider {...formMethods}>
-      <form>
+      <form className="hidden md:flex">
         <Select
           label="Show"
           name="pageSize"

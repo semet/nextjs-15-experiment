@@ -36,3 +36,7 @@ export type TPageSizeFilter = {
 export type TGlobalFilter = {
   keyword: string
 }
+
+export type PaginationProps<T> = {
+  table: Table<T>
+}

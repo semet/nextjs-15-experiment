@@ -13,6 +13,7 @@ export const TextInput = <T extends Record<string, unknown>>(
     rules,
     className,
     containerClassName,
+    rightNode,
     label,
     labelClassName,
     errorClassName,
@@ -46,24 +47,27 @@ export const TextInput = <T extends Record<string, unknown>>(
           {label} {required && <span className="text-rose-500">*</span>}
         </label>
       )}
-      <input
-        type={type}
-        id={id ?? generatedId}
-        className={twMerge([
-          'w-full rounded text-gray-700 focus:ring-0',
-          size === 'sm'
-            ? 'px-2 py-1.5 text-sm'
-            : size === 'md'
-              ? 'px-3 py-2 text-base'
-              : 'px-4 py-3 text-lg',
-          error
-            ? 'border-rose-500 ring-rose-500'
-            : 'border-indigo-400 ring-indigo-400',
-          className
-        ])}
-        {...register(name, rules)}
-        {...rest}
-      />
+      <div className="flex">
+        <input
+          type={type}
+          id={id ?? generatedId}
+          className={twMerge([
+            'w-full rounded text-gray-700 focus:border-primary focus:ring-0',
+            size === 'sm'
+              ? 'px-2 py-1.5 text-sm'
+              : size === 'md'
+                ? 'px-3 py-2 text-base'
+                : 'px-4 py-3 text-lg',
+            error
+              ? 'border-rose-500 ring-rose-500'
+              : 'border-gray-300 ring-gray-300',
+            className
+          ])}
+          {...register(name, rules)}
+          {...rest}
+        />
+        {rightNode && rightNode}
+      </div>
       {error && (
         <span
           className={twMerge([

@@ -1,5 +1,5 @@
 import { FieldValues, Path, RegisterOptions } from 'react-hook-form'
-import type { Props } from 'react-select'
+import type { OptionProps, Props } from 'react-select'
 
 import { TSize } from '@/types/components'
 
@@ -12,3 +12,5 @@ export type SelectProps<T extends FieldValues> = Props & {
   errorClassName?: string
   size?: TSize
 }
+
+export type TOptionProps = OptionProps

@@ -14,4 +14,5 @@ export type InputProps<T extends FieldValues> = Omit<
   labelClassName?: string
   errorClassName?: string
   size?: TSize
+  rightNode?: React.ReactNode
 }
