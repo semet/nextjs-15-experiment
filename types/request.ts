@@ -2,6 +2,6 @@ export type TResponse<T> = {
   data: T
 }
 
-export type TParams = {
+export type TSignal = {
   signal?: AbortSignal
 }

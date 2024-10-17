@@ -23,7 +23,7 @@ export const sidebarMenus = [
     id: 3,
     name: 'Tingkat',
     icon: MdOutlineClearAll,
-    href: '/dashboard/tingkat'
+    href: '/dashboard/batch'
   },
   {
     id: 4,

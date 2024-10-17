@@ -13,7 +13,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#588bf6',
+        primary: '#5d86ff',
         night: '#2a2b47',
         danger: '#eb0000'
       }

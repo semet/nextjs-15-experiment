@@ -9,6 +9,7 @@ export const SidebarHeader = () => {
         width={0}
         height={0}
         className="h-[70px] w-[174px] object-contain"
+        rel="preload"
         priority
       />
     </div>

@@ -1,1 +1,1 @@
-export * from './pagination-context'
+export * from './table-context'

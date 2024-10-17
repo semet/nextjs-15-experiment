@@ -1,6 +1,8 @@
 import { FieldValues, Path, RegisterOptions } from 'react-hook-form'
 import type { Props } from 'react-select'
 
+import { TSize } from '@/types/components'
+
 export type SelectProps<T extends FieldValues> = Props & {
   label?: string
   name: Path<T>
@@ -8,4 +10,5 @@ export type SelectProps<T extends FieldValues> = Props & {
   containerClassName?: string
   labelClassName?: string
   errorClassName?: string
+  size?: TSize
 }

@@ -1,8 +1,8 @@
 import { axiosClient } from '@/apis'
 import { dashboardSchema } from '@/schemas/home'
-import { TParams } from '@/types/request'
+import { TSignal } from '@/types/request'
 
-export const getHomepageDataRequest = async (params: TParams) => {
+export const getHomepageDataRequest = async (params: TSignal) => {
   const { signal } = params
   try {
     const response = await axiosClient.get('/dashboard', { signal })

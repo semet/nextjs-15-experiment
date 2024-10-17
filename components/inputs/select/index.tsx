@@ -23,6 +23,7 @@ export const Select = <T extends Record<string, unknown>>(
     labelClassName,
     required,
     isSearchable = false,
+    size = 'md',
     ...rest
   } = props
   const generatedId = useId()
@@ -36,8 +37,8 @@ export const Select = <T extends Record<string, unknown>>(
   return (
     <div
       className={twMerge([
-        containerClassName,
-        'relative flex w-full flex-col gap-1.5'
+        'relative flex w-full flex-col gap-1.5',
+        containerClassName
       ])}
     >
       {label && (
@@ -72,7 +73,21 @@ export const Select = <T extends Record<string, unknown>>(
                   ...base,
                   borderRadius: '.25rem',
                   borderColor: error ? '#f43f5e' : '#818cf8',
-                  color: '#374151'
+                  textWrap: 'nowrap',
+                  fontSize:
+                    size === 'sm' ? '14px' : size === 'md' ? '16px' : '18px',
+
+                  height:
+                    size === 'sm' ? '34px' : size === 'md' ? '42px' : '54px',
+                  minHeight:
+                    size === 'sm' ? '34px' : size === 'md' ? '42px' : '54px'
+                }),
+                menu: (base) => ({
+                  ...base,
+                  fontSize: '0.875rem'
+                }),
+                indicatorSeparator: () => ({
+                  display: 'none'
                 })
               }}
               {...rest}

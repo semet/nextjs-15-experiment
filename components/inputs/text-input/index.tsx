@@ -18,6 +18,7 @@ export const TextInput = <T extends Record<string, unknown>>(
     errorClassName,
     required,
     type = 'text',
+    size = 'md',
     ...rest
   } = props
 
@@ -49,11 +50,16 @@ export const TextInput = <T extends Record<string, unknown>>(
         type={type}
         id={id ?? generatedId}
         className={twMerge([
-          className,
           'w-full rounded text-gray-700 focus:ring-0',
+          size === 'sm'
+            ? 'px-2 py-1.5 text-sm'
+            : size === 'md'
+              ? 'px-3 py-2 text-base'
+              : 'px-4 py-3 text-lg',
           error
             ? 'border-rose-500 ring-rose-500'
-            : 'border-indigo-400 ring-indigo-400'
+            : 'border-indigo-400 ring-indigo-400',
+          className
         ])}
         {...register(name, rules)}
         {...rest}
