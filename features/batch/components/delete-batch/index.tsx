@@ -13,7 +13,7 @@ export const DeleteBatch: FC<Props> = (props) => {
     <Fragment>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 rounded p-2 text-gray-600 hover:bg-blue-50/40 hover:text-primary"
+        className="flex items-center gap-2 rounded p-2 text-gray-600 hover:bg-blue-50/40 hover:text-danger"
       >
         <MdDeleteOutline />
         <span className="text-sm">Delete</span>
