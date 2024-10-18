@@ -11,3 +11,7 @@ export const responseMeta = z.object({
     totalCount: z.number()
   })
 })
+
+export const successResponse = z.object({
+  message: z.string()
+})

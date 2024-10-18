@@ -19,7 +19,7 @@ export const DeleteBatch: FC<Props> = (props) => {
         <span className="text-sm">Delete</span>
       </button>
       <ModalDialog
-        size="sm"
+        size="xs"
         centered
         isOpen={isOpen}
         setIsOpen={setIsOpen}

@@ -1,13 +1,20 @@
+import dynamic from 'next/dynamic'
 import { FC } from 'react'
 
 import {
-  SidebarContainer,
   HeaderContainer,
   PageTitle,
   DashboardProvider
 } from '@/layouts/dashboard'
 
 import { Props } from './type'
+
+const SidebarContainer = dynamic(
+  () => import('@/layouts/dashboard').then((mod) => mod.SidebarContainer),
+  {
+    ssr: false
+  }
+)
 
 export const DashboardLayout: FC<Props> = ({ children, title }) => {
   return (

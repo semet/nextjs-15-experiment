@@ -1,10 +1,15 @@
+import { useMutation } from '@tanstack/react-query'
 import { FC, Fragment, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { MdOutlineEdit } from 'react-icons/md'
 
 import { Select, TextInput } from '@/components/inputs'
 import { ModalDialog } from '@/components/ui'
+import { batchMutationKeys } from '@/factories/mutation'
+import { batchKey } from '@/factories/query'
+import { updateBatchRequest } from '@/features/batch'
 import { useGetDepartment } from '@/features/department'
+import { useQueryActions } from '@/hooks'
 import { TEditBatch } from '@/schemas/batch'
 
 import { Props } from './type'
@@ -12,6 +17,10 @@ import { Props } from './type'
 export const EditBatch: FC<Props> = (props) => {
   const { batch } = props
   const [isOpen, setIsOpen] = useState(false)
+
+  const { invalidateQueries } = useQueryActions({
+    queryKey: batchKey.batches
+  })
 
   const { data: departments } = useGetDepartment()
   const departmentOptions =
@@ -33,6 +42,15 @@ export const EditBatch: FC<Props> = (props) => {
 
   const { handleSubmit } = fromMethods
 
+  const { mutate, isPending } = useMutation({
+    mutationKey: batchMutationKeys.update(batch.id),
+    mutationFn: updateBatchRequest,
+    onSuccess: () => {
+      invalidateQueries()
+      setIsOpen(false)
+    }
+  })
+
   return (
     <Fragment>
       <button
@@ -45,13 +63,13 @@ export const EditBatch: FC<Props> = (props) => {
       <ModalDialog
         size="sm"
         isOpen={isOpen}
+        isLoading={isPending}
         setIsOpen={setIsOpen}
         onClose={() => setIsOpen(false)}
         showBackdrop
         onConfirm={() => {
           handleSubmit((data) => {
-            // eslint-disable-next-line no-console
-            console.log(data)
+            mutate(data)
           })()
         }}
         title="Edit Batch"
@@ -62,15 +80,18 @@ export const EditBatch: FC<Props> = (props) => {
             <Select<TEditBatch>
               name="departmentId"
               label="Department"
+              disabled={isPending}
               options={departmentOptions}
             />
             <TextInput<TEditBatch>
               name="name"
               label="Name"
+              disabled={isPending}
             />
             <TextInput<TEditBatch>
               name="alias"
               label="Alias"
+              disabled={isPending}
             />
           </form>
         </FormProvider>

@@ -6,6 +6,7 @@ import {
 } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC } from 'react'
+import { CgSpinner } from 'react-icons/cg'
 import { twMerge } from 'tailwind-merge'
 
 import { Props } from './type'
@@ -15,6 +16,7 @@ export const ModalDialog: FC<Props> = (props) => {
     centered = false,
     isOpen,
     setIsOpen,
+    isLoading,
     title,
     children,
     showBackdrop = false,
@@ -27,7 +29,11 @@ export const ModalDialog: FC<Props> = (props) => {
       {isOpen && (
         <Dialog
           open={isOpen}
-          onClose={() => setIsOpen(false)}
+          onClose={() => {
+            if (!isLoading) {
+              setIsOpen(false)
+            }
+          }}
           className="relative z-50"
         >
           {showBackdrop && (
@@ -47,6 +53,7 @@ export const ModalDialog: FC<Props> = (props) => {
             <DialogPanel
               className={twMerge([
                 'rounded-lg bg-white shadow-lg',
+                size === 'xs' && 'w-full sm:w-[50%] md:w-[40%] lg:w-[30%]',
                 size === 'sm' && 'w-full sm:w-[60%] md:w-[50%] lg:w-[40%]',
                 size === 'md' && 'w-full sm:w-[70%] md:w-[60%] lg:w-[50%]',
                 size === 'lg' && 'w-full sm:w-[80%] md:w-[70%] lg:w-[60%]'
@@ -73,10 +80,14 @@ export const ModalDialog: FC<Props> = (props) => {
                 </button>
                 {onConfirm && (
                   <button
-                    className="rounded-lg bg-[#edf2ff] px-3 py-2 text-[#638aff] hover:bg-[#638aff] hover:text-white"
+                    className="min-w-16 rounded-lg bg-[#edf2ff] px-3 py-2 text-[#638aff] hover:bg-[#638aff] hover:text-white"
                     onClick={onConfirm}
                   >
-                    {confirmText ?? 'Save'}
+                    {isLoading ? (
+                      <CgSpinner className="mx-auto animate-spin" />
+                    ) : (
+                      (confirmText ?? 'Save')
+                    )}
                   </button>
                 )}
               </div>
