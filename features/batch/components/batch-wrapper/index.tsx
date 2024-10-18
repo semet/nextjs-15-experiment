@@ -7,10 +7,7 @@ import { initialFilter } from './data'
 
 export const BatchWrapper = () => {
   return (
-    <TableProvider<TBatchFilter>
-      initialFilter={initialFilter}
-      pageSize={1}
-    >
+    <TableProvider<TBatchFilter> initialFilter={initialFilter}>
       <Card header={<BatchToolbar />}>
         <BatchTable />
       </Card>
