@@ -11,12 +11,24 @@ import { LuCircle } from 'react-icons/lu'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { twMerge } from 'tailwind-merge'
 
+import { useBreakpointValue } from '@/hooks'
+import { useDashboard } from '@/layouts/dashboard'
+
 import { TProps } from './type'
 
 export const SidebarLinkWithChildren: FC<TProps> = (props) => {
   const { submenus, icon: Icon, id, name } = props
   const { pathname } = useRouter()
   const isActive = submenus.some(({ href }) => pathname === href)
+
+  const { toggleSidebar } = useDashboard()
+  const deviceType = useBreakpointValue({
+    base: 'mobile',
+    sm: 'mobile',
+    md: 'tablet',
+    lg: 'desktop',
+    xl: 'desktop'
+  })
   return (
     <Disclosure
       as="div"
@@ -65,6 +77,14 @@ export const SidebarLinkWithChildren: FC<TProps> = (props) => {
                         className="py-0.5"
                       >
                         <Link
+                          onClick={() => {
+                            if (
+                              deviceType === 'mobile' ||
+                              deviceType === 'tablet'
+                            ) {
+                              toggleSidebar()
+                            }
+                          }}
                           href={href}
                           className={twMerge([
                             'flex items-center gap-2 rounded-lg p-3',
