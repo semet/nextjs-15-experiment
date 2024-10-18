@@ -47,9 +47,9 @@ export const ModalDialog: FC<Props> = (props) => {
             <DialogPanel
               className={twMerge([
                 'rounded-lg bg-white shadow-lg',
-                size === 'sm' && 'w-[30%]',
-                size === 'md' && 'w-[45%]',
-                size === 'lg' && 'w-[61%]'
+                size === 'sm' && 'w-full sm:w-[60%] md:w-[50%] lg:w-[40%]',
+                size === 'md' && 'w-full sm:w-[70%] md:w-[60%] lg:w-[50%]',
+                size === 'lg' && 'w-full sm:w-[80%] md:w-[70%] lg:w-[60%]'
               ])}
             >
               {title && (
