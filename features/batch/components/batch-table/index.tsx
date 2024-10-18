@@ -6,10 +6,22 @@ import { TBatchFilter } from '@/schemas/batch'
 import { batchColumns } from './data'
 
 export const BatchTable = () => {
-  const { filter, pagination, setPagination, rowSelection, setRowSelection } =
-    useTable<TBatchFilter>()
+  const {
+    filter,
+    page,
+    limit,
+    sortingType,
+    pagination,
+    setPagination,
+    rowSelection,
+    setRowSelection
+  } = useTable<TBatchFilter>()
+
   const { data, isLoading, isFetching, isRefetching } = useGetBatch({
-    department: filter?.department ?? { label: '', value: '' }
+    page,
+    limit,
+    filter,
+    sortingType
   })
 
   return (
@@ -18,12 +30,14 @@ export const BatchTable = () => {
         data={data?.data ?? []}
         columns={batchColumns(data?.data.length ?? 0)}
         isLoading={isLoading || isFetching || isRefetching}
+        setPagination={setPagination}
+        setRowSelection={setRowSelection}
+        pageCount={data?.meta?.pageCount}
+        totalData={data?.meta?.totalCount}
         state={{
           pagination,
           rowSelection
         }}
-        setPagination={setPagination}
-        setRowSelection={setRowSelection}
       />
     </>
   )

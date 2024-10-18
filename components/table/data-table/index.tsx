@@ -24,6 +24,8 @@ export const DataTable = <T,>(props: Props<T>) => {
     data = [],
     state,
     isLoading,
+    pageCount,
+    totalData,
     setRowSelection,
     setColumnVisibility,
     setColumnOrder,
@@ -42,6 +44,8 @@ export const DataTable = <T,>(props: Props<T>) => {
     },
     enableRowSelection: true,
     enableGlobalFilter: true,
+    manualPagination: true,
+    pageCount,
     onRowSelectionChange: setRowSelection,
     onColumnVisibilityChange: setColumnVisibility,
     onColumnOrderChange: setColumnOrder,
@@ -184,7 +188,11 @@ export const DataTable = <T,>(props: Props<T>) => {
         </AnimatePresence>
       </table>
       {hasData && !isLoading && state?.pagination && (
-        <Pagination table={table} />
+        <Pagination
+          table={table}
+          totalData={totalData}
+          pageCount={pageCount}
+        />
       )}
     </div>
   )

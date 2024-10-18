@@ -14,6 +14,8 @@ export type Props<T> = {
   data?: T[]
   columns: ColumnDef<T, unknown>[]
   state?: Partial<TableState>
+  pageCount?: number
+  totalData?: number
   setRowSelection?: Dispatch<SetStateAction<RowSelectionState>>
   setColumnVisibility?: Dispatch<SetStateAction<VisibilityState>>
   setColumnOrder?: Dispatch<SetStateAction<ColumnOrderState>>
@@ -39,4 +41,6 @@ export type TGlobalFilter = {
 
 export type PaginationProps<T> = {
   table: Table<T>
+  totalData?: number
+  pageCount?: number
 }

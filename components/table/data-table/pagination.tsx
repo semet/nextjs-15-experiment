@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import {
   MdKeyboardDoubleArrowLeft,
@@ -12,11 +11,9 @@ import { TextInput } from '@/components/inputs'
 import { PaginationProps } from './type'
 
 export const Pagination = <T,>(props: PaginationProps<T>) => {
-  const { table } = props
+  const { table, totalData, pageCount } = props
 
   const currentPage = table.getState().pagination.pageIndex + 1
-  const totalData = table.getCoreRowModel().rows.length
-  const totalPage = Math.ceil(totalData / table.getState().pagination.pageSize)
 
   const formMethods = useForm({
     defaultValues: {
@@ -24,24 +21,50 @@ export const Pagination = <T,>(props: PaginationProps<T>) => {
     }
   })
 
-  const { setValue, handleSubmit } = formMethods
+  const {
+    setValue,
+    handleSubmit,
+    formState: { touchedFields }
+  } = formMethods
 
   const onSubmit = handleSubmit((data) => {
-    if (data.page > totalPage || data.page < 1) {
+    if (!data.page || !pageCount) return
+
+    if (data.page > pageCount || data.page < 1) {
       return
     }
     table.setPageIndex(data.page - 1)
   })
-
-  useEffect(() => {
-    setValue('page', currentPage)
-  }, [currentPage, setValue])
+  const handleFirstPageClick = () => {
+    table.setPageIndex(0)
+    if (touchedFields.page) {
+      setValue('page', 1)
+    }
+  }
+  const handlePrevPageClick = () => {
+    table.previousPage()
+    if (touchedFields.page) {
+      setValue('page', table.getState().pagination.pageIndex)
+    }
+  }
+  const handleLastPageClick = () => {
+    table.setPageIndex(table.getPageCount() - 1)
+    if (touchedFields.page) {
+      setValue('page', table.getPageCount())
+    }
+  }
+  const handleNextPageClick = () => {
+    table.nextPage()
+    if (touchedFields.page) {
+      setValue('page', table.getState().pagination.pageIndex + 2)
+    }
+  }
 
   return (
     <div className="flex flex-col items-center gap-4 gap-y-2 p-4 md:flex-row">
       <ul className="flex items-center gap-2">
         <li
-          onClick={() => table.firstPage()}
+          onClick={handleFirstPageClick}
           className="flex cursor-pointer items-center rounded-full bg-primary/10 p-2 text-gray-500 hover:bg-primary hover:text-white has-[:disabled]:bg-primary/10 has-[:disabled]:text-gray-500"
         >
           <button
@@ -52,7 +75,7 @@ export const Pagination = <T,>(props: PaginationProps<T>) => {
           </button>
         </li>
         <li
-          onClick={() => table.previousPage()}
+          onClick={handlePrevPageClick}
           className="flex cursor-pointer items-center rounded-full bg-primary/10 p-2 text-gray-500 hover:bg-primary hover:text-white has-[:disabled]:bg-primary/10 has-[:disabled]:text-gray-500"
         >
           <button
@@ -66,7 +89,7 @@ export const Pagination = <T,>(props: PaginationProps<T>) => {
           <span className="text-sm text-gray-500">{currentPage}</span>
         </li>
         <li
-          onClick={() => table.nextPage()}
+          onClick={handleNextPageClick}
           className="flex cursor-pointer items-center rounded-full bg-primary/10 p-2 text-gray-500 hover:bg-primary hover:text-white has-[:disabled]:bg-primary/10 has-[:disabled]:text-gray-500"
         >
           <button
@@ -77,7 +100,7 @@ export const Pagination = <T,>(props: PaginationProps<T>) => {
           </button>
         </li>
         <li
-          onClick={() => table.lastPage()}
+          onClick={handleLastPageClick}
           className="flex cursor-pointer items-center rounded-full bg-primary/10 p-2 text-gray-500 hover:bg-primary hover:text-white has-[:disabled]:bg-primary/10 has-[:disabled]:text-gray-500"
         >
           <button
@@ -99,7 +122,12 @@ export const Pagination = <T,>(props: PaginationProps<T>) => {
             rules={{
               onChange(event) {
                 const value = Number(event.target.value)
-                if (value < 1 || value > totalPage) {
+                if (
+                  isNaN(value) ||
+                  value < 1 ||
+                  !pageCount ||
+                  value > pageCount
+                ) {
                   event.target.value = ''
                 }
               }
@@ -109,7 +137,7 @@ export const Pagination = <T,>(props: PaginationProps<T>) => {
       </FormProvider>
       <div className="text-sm tracking-wide text-gray-500">
         Showing {table.getRowModel().rows.length.toLocaleString()} of{' '}
-        {table.getRowCount().toLocaleString()} Rows
+        {totalData} data
       </div>
     </div>
   )

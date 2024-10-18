@@ -1,16 +1,15 @@
 import { Card } from '@/components/ui'
 import { TableProvider } from '@/contexts'
 import { BatchTable, BatchToolbar } from '@/features/batch'
+import { TBatchFilter } from '@/schemas/batch'
+
+import { initialFilter } from './data'
 
 export const BatchWrapper = () => {
   return (
-    <TableProvider
-      initialFilter={{
-        department: {
-          label: '',
-          value: ''
-        }
-      }}
+    <TableProvider<TBatchFilter>
+      initialFilter={initialFilter}
+      pageSize={1}
     >
       <Card header={<BatchToolbar />}>
         <BatchTable />

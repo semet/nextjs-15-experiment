@@ -1,8 +1,8 @@
-import { SidebarHeader, SidebarContent } from '@/layouts/dashboard'
+import { SidebarContent, SidebarHeader } from '@/layouts/dashboard'
 
 export const SidebarContainer = () => {
   return (
-    <aside className="min-h-screen w-[330px] border-r">
+    <aside className="hidden min-h-screen w-[330px] border-r md:block">
       <SidebarHeader />
       <SidebarContent />
     </aside>

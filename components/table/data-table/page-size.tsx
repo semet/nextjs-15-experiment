@@ -2,13 +2,14 @@ import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 
 import { Select } from '@/components/inputs'
+import { useTable } from '@/contexts'
 
 import { pageSizes } from './data'
 import { TPageSizeFilter, PageSizeProps } from './type'
 
 export const PageSize = <T,>(props: PageSizeProps<T>) => {
   const { table } = props
-
+  const { setLimit } = useTable()
   const formMethods = useForm<TPageSizeFilter>({
     defaultValues: {
       pageSize: {
@@ -23,6 +24,7 @@ export const PageSize = <T,>(props: PageSizeProps<T>) => {
 
   useEffect(() => {
     table.setPageSize(watchPageSize.value)
+    setLimit(watchPageSize.value)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchPageSize])
   return (

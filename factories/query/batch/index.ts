@@ -1,3 +1,5 @@
+import { TBatchQueryParams } from '@/schemas/batch'
+
 export const batchKey = {
-  batchList: (id: string) => ['batches', id] as const
+  batchList: (params: TBatchQueryParams) => ['batches', params] as const
 }

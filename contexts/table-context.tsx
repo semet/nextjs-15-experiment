@@ -13,10 +13,16 @@ import {
   useState
 } from 'react'
 
+import { TSortingType } from '@/types/request'
+
 type TableContextType<T = Record<string, unknown>> = {
   page: number
   filter: T | undefined
   setFilter: Dispatch<SetStateAction<T | undefined>>
+  sortingType: TSortingType
+  setSortingType: Dispatch<SetStateAction<TSortingType>>
+  limit: number
+  setLimit: Dispatch<SetStateAction<number>>
   pagination: PaginationState
   setPagination: Dispatch<SetStateAction<PaginationState>>
   resetPagination: () => void
@@ -30,6 +36,7 @@ type TableContextType<T = Record<string, unknown>> = {
 
 type TableProviderProps<T> = PropsWithChildren<{
   initialFilter?: T
+  initialSort?: TSortingType
   pageSize?: number
 }>
 
@@ -38,6 +45,7 @@ const TableContext = createContext<TableContextType | undefined>(undefined)
 const TableProvider = <T,>({
   children,
   initialFilter,
+  initialSort = 'asc',
   pageSize = 10
 }: TableProviderProps<T>) => {
   const [filter, setFilter] = useState<Record<string, unknown> | undefined>(
@@ -47,13 +55,13 @@ const TableProvider = <T,>({
     pageIndex: 0,
     pageSize: pageSize
   })
-
-  const page = pagination.pageIndex + 1
-  const resetPagination = () => setPagination({ ...pagination, pageIndex: 0 })
-
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>()
+  const [sortingType, setSortingType] = useState<TSortingType>(initialSort)
+  const [limit, setLimit] = useState<number>(pageSize)
+  const page = pagination.pageIndex + 1
+  const resetPagination = () => setPagination({ ...pagination, pageIndex: 0 })
 
   return (
     <TableContext.Provider
@@ -61,8 +69,12 @@ const TableProvider = <T,>({
         page,
         filter,
         setFilter,
+        sortingType,
+        setSortingType,
         pagination,
         setPagination,
+        limit,
+        setLimit,
         resetPagination,
         columnVisibility,
         setColumnVisibility,
