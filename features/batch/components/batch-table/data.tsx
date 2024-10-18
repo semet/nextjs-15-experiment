@@ -1,6 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 
 import { IndeterminateCheckbox } from '@/components/inputs'
+import { BatchOptions } from '@/features/batch'
 import { TBatch } from '@/schemas/batch'
 
 export const batchColumns = (
@@ -57,6 +58,12 @@ export const batchColumns = (
       accessorKey: 'alias',
       filterFn: 'includesString',
       cell: (row) => <> {row.getValue()}</>
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      enableColumnFilter: false,
+      cell: ({ row }) => <BatchOptions batch={row.original} />
     }
   ]
 }

@@ -9,4 +9,5 @@ export type Props = PropsWithChildren<{
   title?: string
   showBackdrop?: boolean
   size?: 'sm' | 'md' | 'lg'
+  centered?: boolean
 }>

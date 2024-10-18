@@ -25,8 +25,20 @@ export const batchResponse = z.object({
   )
 })
 
+export const editBatch = z.object({
+  id: z.string(),
+  name: z.string(),
+  alias: z.string(),
+  departmentId: z.object({
+    label: z.string(),
+    value: z.string()
+  })
+})
+
 export type TBatchResponse = z.infer<typeof batchResponse>
 
 export type TBatch = TBatchResponse['data'][0]
 
 export type TBatchFilter = z.infer<typeof batchFilter>
+
+export type TEditBatch = z.infer<typeof editBatch>

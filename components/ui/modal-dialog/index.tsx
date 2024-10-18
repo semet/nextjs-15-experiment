@@ -12,11 +12,11 @@ import { Props } from './type'
 
 export const ModalDialog: FC<Props> = (props) => {
   const {
+    centered = false,
     isOpen,
     setIsOpen,
     title,
     children,
-
     showBackdrop = false,
     onConfirm,
     confirmText,
@@ -46,20 +46,25 @@ export const ModalDialog: FC<Props> = (props) => {
           >
             <DialogPanel
               className={twMerge([
-                'space-y-4 rounded-lg bg-white shadow-lg',
+                'rounded-lg bg-white shadow-lg',
                 size === 'sm' && 'w-[30%]',
                 size === 'md' && 'w-[45%]',
                 size === 'lg' && 'w-[61%]'
               ])}
             >
               {title && (
-                <DialogTitle className="border-b px-4 py-3 text-lg font-bold">
+                <DialogTitle className="border-b px-4 py-3 text-lg font-bold text-gray-700">
                   {title}
                 </DialogTitle>
               )}
               <div className="px-4 py-3">{children}</div>
 
-              <div className="flex gap-4 border-t px-4 py-3">
+              <div
+                className={twMerge([
+                  'flex gap-4 border-t px-4 py-3',
+                  centered ? 'justify-center' : ''
+                ])}
+              >
                 <button
                   className="rounded-lg bg-[#fceee7] px-3 py-2 text-[#e5927a] hover:bg-[#e5927a] hover:text-white"
                   onClick={() => setIsOpen(false)}

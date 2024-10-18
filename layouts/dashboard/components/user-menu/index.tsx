@@ -55,7 +55,7 @@ export const UserMenu = () => {
                     key={id}
                     as={'button'}
                     onClick={() => handleMenuClick(name)}
-                    className="flex items-center gap-2 rounded-md px-2 py-2 text-gray-600 first:mt-2 last:mb-2 data-[focus]:bg-blue-50/40 data-[focus]:text-primary"
+                    className="flex items-center gap-2 rounded-md p-2 text-gray-600 first:mt-2 last:mb-2 data-[focus]:bg-blue-50/40 data-[focus]:text-primary"
                   >
                     <Icon />
                     <span className="text-sm">{name}</span>
