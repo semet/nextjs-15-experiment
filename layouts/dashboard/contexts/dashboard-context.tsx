@@ -5,7 +5,7 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
-  useLayoutEffect,
+  useEffect,
   useState
 } from 'react'
 
@@ -30,9 +30,7 @@ const DashboardProvider: FC<DashboardProviderProps> = ({ children }) => {
     xl: 'desktop'
   })
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(
-    () => deviceType === 'desktop'
-  )
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev)
@@ -40,7 +38,8 @@ const DashboardProvider: FC<DashboardProviderProps> = ({ children }) => {
 
   const values = { isSidebarOpen, setIsSidebarOpen, toggleSidebar }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    if (!deviceType) return
     if (deviceType === 'desktop') {
       setIsSidebarOpen(true)
     } else {
