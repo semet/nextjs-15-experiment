@@ -1,5 +1,7 @@
 export * from './dashboard-layout'
 export * from './sidebar-container'
+export * from './desktop-sidebar'
+export * from './mobile-sidebar'
 export * from './sidebar-header'
 export * from './sidebar-content'
 export * from './sidebar-link'

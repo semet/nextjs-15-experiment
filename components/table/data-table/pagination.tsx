@@ -61,7 +61,7 @@ export const Pagination = <T,>(props: PaginationProps<T>) => {
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 gap-y-2 p-4 md:flex-row">
+    <div className="flex flex-col items-center gap-4 gap-y-3 p-4 md:flex-row">
       <ul className="flex items-center gap-2">
         <li
           onClick={handleFirstPageClick}
@@ -117,7 +117,7 @@ export const Pagination = <T,>(props: PaginationProps<T>) => {
             name="page"
             type="number"
             size="sm"
-            className="h-[33px] w-24 text-xs"
+            className="h-[33px] w-16 text-center text-xs md:w-24 md:text-left"
             placeholder="Go to page"
             rules={{
               onChange(event) {

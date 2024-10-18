@@ -5,8 +5,11 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useLayoutEffect,
   useState
 } from 'react'
+
+import { useBreakpointValue } from '@/hooks'
 
 type DashboardContextType = {
   isSidebarOpen: boolean
@@ -19,7 +22,17 @@ type DashboardProviderProps = PropsWithChildren
 const DashboardContext = createContext<DashboardContextType | null>(null)
 
 const DashboardProvider: FC<DashboardProviderProps> = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const deviceType = useBreakpointValue({
+    base: 'mobile',
+    sm: 'mobile',
+    md: 'tablet',
+    lg: 'desktop',
+    xl: 'desktop'
+  })
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(
+    () => deviceType === 'desktop'
+  )
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev)
@@ -27,6 +40,13 @@ const DashboardProvider: FC<DashboardProviderProps> = ({ children }) => {
 
   const values = { isSidebarOpen, setIsSidebarOpen, toggleSidebar }
 
+  useLayoutEffect(() => {
+    if (deviceType === 'desktop') {
+      setIsSidebarOpen(true)
+    } else {
+      setIsSidebarOpen(false)
+    }
+  }, [deviceType])
   return (
     <DashboardContext.Provider value={values}>
       {children}
