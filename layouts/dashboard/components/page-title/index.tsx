@@ -14,11 +14,13 @@ export const PageTitle: FC<Props> = (props) => {
         alt=""
         width={150}
         height={150}
-        className="absolute -top-2 right-10 hidden object-cover lg:block"
+        className="absolute -top-2 right-10 hidden object-cover md:block"
         rel="preload"
         priority
       />
-      <h1 className="text-xl font-semibold text-gray-800">{title}</h1>
+      <h1 className="text-center text-xl font-semibold text-gray-800 md:text-left">
+        {title}
+      </h1>
       <Breadcrumb />
     </div>
   )

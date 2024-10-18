@@ -6,7 +6,7 @@ export const Breadcrumb = () => {
   const { pathname } = useRouter()
   const paths = pathname.split('/').filter((path) => path)
   return (
-    <ul className="flex items-end gap-1">
+    <ul className="flex items-end justify-center gap-1 md:justify-start">
       {paths.map((path) => {
         return (
           <li
