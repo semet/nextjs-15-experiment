@@ -49,3 +49,7 @@ export type TBatchFilter = z.infer<typeof batchFilter>
 export type TBatchQueryParams = TQueryParams<TBatchFilter>
 
 export type TEditBatch = z.infer<typeof editBatch>
+
+export type TDeleteBatch = {
+  id: string
+}

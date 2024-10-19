@@ -7,7 +7,7 @@ export const updateBatchRequest = async (params: TEditBatch) => {
   try {
     const response = await axiosClient.put(`/batch/${id}`, flattenObject(rest))
     return successResponse.parse(response.data)
-  } catch {
-    throw new Error('An error occurred')
+  } catch (error) {
+    return Promise.reject(error)
   }
 }

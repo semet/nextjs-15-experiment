@@ -16,7 +16,7 @@ export const getBatchRequest = async (params: TBatchQueryParams) => {
       }
     )
     return batchResponse.parse(response.data)
-  } catch {
-    throw new Error('An error occurred')
+  } catch (error) {
+    return Promise.reject(error)
   }
 }

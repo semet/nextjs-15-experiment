@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { FC, Fragment, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { MdOutlineEdit } from 'react-icons/md'
+import { toast } from 'react-toastify'
 
 import { Select, TextInput } from '@/components/inputs'
 import { ModalDialog } from '@/components/ui'
@@ -46,6 +47,12 @@ export const EditBatch: FC<Props> = (props) => {
     mutationKey: batchMutationKeys.update(batch.id),
     mutationFn: updateBatchRequest,
     onSuccess: () => {
+      toast.success('Batch updated successfully')
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+    onSettled: () => {
       invalidateQueries()
       setIsOpen(false)
     }
