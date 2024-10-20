@@ -7,7 +7,8 @@ export const SidebarContainer = () => {
     sm: 'mobile',
     md: 'tablet',
     lg: 'desktop',
-    xl: 'desktop'
+    xl: 'desktop',
+    '2xl': 'desktop'
   })
 
   return deviceType === 'desktop' ? <DesktopSidebar /> : <MobileSidebar />

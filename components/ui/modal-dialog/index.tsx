@@ -9,6 +9,8 @@ import { FC } from 'react'
 import { CgSpinner } from 'react-icons/cg'
 import { twMerge } from 'tailwind-merge'
 
+import { Button } from '@/components/ui'
+
 import { Props } from './type'
 
 export const ModalDialog: FC<Props> = (props) => {
@@ -72,15 +74,15 @@ export const ModalDialog: FC<Props> = (props) => {
                   centered ? 'justify-center' : ''
                 ])}
               >
-                <button
-                  className="rounded-lg bg-[#fceee7] px-3 py-2 text-[#e5927a] hover:bg-[#e5927a] hover:text-white"
+                <Button
+                  variant="warning"
                   onClick={() => setIsOpen(false)}
                 >
                   Cancel
-                </button>
+                </Button>
                 {onConfirm && (
-                  <button
-                    className="min-w-16 rounded-lg bg-[#edf2ff] px-3 py-2 text-[#638aff] hover:bg-[#638aff] hover:text-white"
+                  <Button
+                    variant="primary"
                     onClick={onConfirm}
                   >
                     {isLoading ? (
@@ -88,7 +90,7 @@ export const ModalDialog: FC<Props> = (props) => {
                     ) : (
                       (confirmText ?? 'Save')
                     )}
-                  </button>
+                  </Button>
                 )}
               </div>
             </DialogPanel>

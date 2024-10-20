@@ -55,7 +55,7 @@ export const MobileSidebar = memo(() => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="relative h-full w-full max-w-[330px] bg-white p-4"
+              className="group relative h-full w-full max-w-[330px] bg-white p-4"
             >
               <button
                 onClick={() => setIsSidebarOpen(false)}
