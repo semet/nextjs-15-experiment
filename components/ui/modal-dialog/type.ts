@@ -8,6 +8,7 @@ export type Props = PropsWithChildren<{
   confirmText?: string
   title?: string
   showBackdrop?: boolean
-  size?: 'sm' | 'md' | 'lg'
+  size?: 'xs' | 'sm' | 'md' | 'lg'
   centered?: boolean
+  isLoading?: boolean
 }>

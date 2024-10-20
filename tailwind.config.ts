@@ -1,5 +1,6 @@
 import TailwindForm from '@tailwindcss/forms'
 import Typography from '@tailwindcss/typography'
+import tailwindScrollbar from 'tailwind-scrollbar'
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -15,10 +16,11 @@ const config: Config = {
       colors: {
         primary: '#5d86ff',
         night: '#2a2b47',
-        danger: '#eb0000'
+        danger: '#eb0000',
+        warning: '#e5927a'
       }
     }
   },
-  plugins: [TailwindForm, Typography]
+  plugins: [TailwindForm, Typography, tailwindScrollbar]
 }
 export default config

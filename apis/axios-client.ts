@@ -87,7 +87,11 @@ axiosClient.interceptors.response.use(
       const errorMessage = error.response.data.message || 'Something went wrong'
       toast.error(`Error: ${errorMessage}`)
     } else if (error.request) {
-      toast.error('No response from the server')
+      if (error.code === 'ERR_NETWORK') {
+        toast.error('No response from the server')
+      } else {
+        toast.error('Request error')
+      }
     }
     return Promise.reject(error)
   }

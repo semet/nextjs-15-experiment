@@ -31,7 +31,7 @@ export const DesktopSidebar = () => {
     <AnimatePresence>
       {isSidebarOpen && (
         <motion.aside
-          className="hidden min-h-screen w-[330px] border-r md:block"
+          className="group hidden min-h-screen w-[330px] border-r md:block"
           initial="hidden"
           animate="visible"
           exit="hidden"

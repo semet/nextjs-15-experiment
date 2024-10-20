@@ -28,7 +28,7 @@ export const BatchTable = () => {
     <>
       <DataTable
         data={data?.data ?? []}
-        columns={batchColumns(data?.data.length ?? 0)}
+        columns={batchColumns}
         isLoading={isLoading || isFetching || isRefetching}
         setPagination={setPagination}
         setRowSelection={setRowSelection}

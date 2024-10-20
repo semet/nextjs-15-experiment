@@ -1,22 +1,20 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { FC, Fragment, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { MdOutlineEdit } from 'react-icons/md'
+import { MdOutlineAdd } from 'react-icons/md'
 import { toast } from 'react-toastify'
 
 import { Select, SubmitButton, TextInput } from '@/components/inputs'
 import { SidePanel } from '@/components/ui'
 import { batchMutationKeys } from '@/factories/mutation'
 import { batchKey } from '@/factories/query'
-import { updateBatchRequest } from '@/features/batch'
+import { createBatchRequest } from '@/features/batch'
 import { useGetDepartment } from '@/features/department'
 import { useQueryActions } from '@/hooks'
-import { TEditBatch } from '@/schemas/batch'
+import { createBatch, TCreateBatch } from '@/schemas/batch'
 
-import { Props } from './type'
-
-export const EditBatch: FC<Props> = (props) => {
-  const { batch } = props
+export const CreateBatch = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const { invalidateQueries } = useQueryActions({
@@ -30,31 +28,32 @@ export const EditBatch: FC<Props> = (props) => {
       value: department.id
     })) ?? []
 
-  const fromMethods = useForm<TEditBatch>({
+  const fromMethods = useForm<TCreateBatch>({
     defaultValues: {
-      id: batch.id,
-      name: batch.name,
-      alias: batch.alias,
-      departmentId: departmentOptions.find(
-        (option) => option.value === batch.departmentId
-      )
-    }
+      name: '',
+      alias: '',
+      departmentId: {
+        label: '',
+        value: ''
+      }
+    },
+    resolver: zodResolver(createBatch)
   })
 
   const { handleSubmit, reset } = fromMethods
 
   const { mutate, isPending } = useMutation({
-    mutationKey: batchMutationKeys.update(batch.id),
-    mutationFn: updateBatchRequest,
+    mutationKey: batchMutationKeys.create,
+    mutationFn: createBatchRequest,
     onSuccess: () => {
-      toast.success('Batch updated successfully')
+      toast.success('Batch created successfully')
     },
     onError: (error) => {
       toast.error(error.message)
     },
     onSettled: () => {
       invalidateQueries()
-      setIsOpen(false)
+      onClose()
     }
   })
 
@@ -66,40 +65,41 @@ export const EditBatch: FC<Props> = (props) => {
     setIsOpen(false)
     reset()
   }
-
   return (
     <Fragment>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 rounded p-2 text-gray-600 hover:bg-blue-50/40 hover:text-primary"
+        className="rounded-lg bg-primary/10 p-2 text-gray-600 hover:bg-primary hover:text-white"
       >
-        <MdOutlineEdit />
-        <span className="text-sm">Edit</span>
+        <MdOutlineAdd className="text-lg" />
       </button>
       <SidePanel
         isOpen={isOpen}
         isLoading={false}
         setIsOpen={setIsOpen}
         onClose={onClose}
-        title="Edit Batch"
+        title="Create Batch"
       >
         <FormProvider {...fromMethods}>
           <form
             onSubmit={onSubmit}
             className="flex flex-col gap-4"
           >
-            <Select<TEditBatch>
+            <Select
+              required
               name="departmentId"
               label="Department"
-              disabled={isPending}
               options={departmentOptions}
+              disabled={isPending}
             />
-            <TextInput<TEditBatch>
+            <TextInput
+              required
               name="name"
               label="Name"
               disabled={isPending}
             />
-            <TextInput<TEditBatch>
+            <TextInput
+              required
               name="alias"
               label="Alias"
               disabled={isPending}

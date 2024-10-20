@@ -28,7 +28,9 @@ export const SidebarLink: FC<TProps> = ({ href, icon: Icon, name }) => {
       }}
       className={twMerge([
         'flex items-center gap-2 rounded-lg p-3',
-        pathname === href ? 'bg-primary text-white' : '',
+        pathname === href
+          ? 'bg-gradient-to-r from-primary to-indigo-700 text-white shadow-lg'
+          : '',
         pathname !== href
           ? 'text-gray-600 hover:bg-blue-100/40 hover:text-primary'
           : ''
