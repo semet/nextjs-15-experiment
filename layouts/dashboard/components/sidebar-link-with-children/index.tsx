@@ -40,7 +40,9 @@ export const SidebarLinkWithChildren: FC<TProps> = (props) => {
           <DisclosureButton
             className={twMerge([
               'flex w-full justify-between rounded-lg p-3',
-              isActive ? 'bg-primary text-white' : '',
+              isActive
+                ? 'bg-gradient-to-r from-primary to-indigo-700 text-white shadow-lg'
+                : '',
               !isActive
                 ? 'text-gray-600 hover:bg-blue-100/40 hover:text-primary'
                 : ''

@@ -8,10 +8,9 @@ import { NextPage } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import { appWithTranslation } from 'next-i18next'
 import { useState } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import { ToastContainer } from 'react-toastify'
 
-import { ErrorWrapper } from '@/layouts/error'
+import { ErrorBoundary } from '@/layouts/error'
 import { AppPropsWithLayout } from '@/types/next'
 
 const plusFont = Plus_Jakarta_Sans({
@@ -58,19 +57,22 @@ const App: NextPage<AppPropsWithLayout> = ({ Component, pageProps }) => {
       })
   )
   return (
-    <QueryClientProvider client={queryClient}>
-      <ErrorBoundary fallback={<ErrorWrapper />}>
-        <ToastContainer />
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ToastContainer
+          hideProgressBar
+          theme="colored"
+        />
         <main className={plusFont.className}>
           {getLayout(<Component {...pageProps} />)}
         </main>
-      </ErrorBoundary>
-      <ReactQueryDevtools
-        initialIsOpen={false}
-        position="left"
-        buttonPosition="bottom-left"
-      />
-    </QueryClientProvider>
+        <ReactQueryDevtools
+          initialIsOpen={false}
+          position="left"
+          buttonPosition="bottom-left"
+        />
+      </QueryClientProvider>
+    </ErrorBoundary>
   )
 }
 

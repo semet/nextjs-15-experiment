@@ -8,6 +8,7 @@ export type SelectProps<T extends FieldValues> = Props & {
   name: Path<T>
   rules?: RegisterOptions
   containerClassName?: string
+  disabled?: boolean
   labelClassName?: string
   errorClassName?: string
   size?: TSize

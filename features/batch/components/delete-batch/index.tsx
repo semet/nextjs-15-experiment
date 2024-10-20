@@ -1,14 +1,31 @@
+import { useMutation } from '@tanstack/react-query'
 import { FC, Fragment, useState } from 'react'
 import { AiOutlineExclamationCircle } from 'react-icons/ai'
 import { MdDeleteOutline } from 'react-icons/md'
 
 import { ModalDialog } from '@/components/ui'
+import { batchMutationKeys } from '@/factories/mutation'
+import { batchKey } from '@/factories/query'
+import { deleteBatchRequest } from '@/features/batch'
+import { useQueryActions } from '@/hooks'
 
 import { Props } from './type'
 
 export const DeleteBatch: FC<Props> = (props) => {
   const [isOpen, setIsOpen] = useState(false)
 
+  const { invalidateQueries } = useQueryActions({
+    queryKey: batchKey.batches
+  })
+
+  const { mutate } = useMutation({
+    mutationKey: batchMutationKeys.delete(props.id),
+    mutationFn: deleteBatchRequest,
+    onSuccess: () => {
+      invalidateQueries()
+      setIsOpen(false)
+    }
+  })
   return (
     <Fragment>
       <button
@@ -19,15 +36,16 @@ export const DeleteBatch: FC<Props> = (props) => {
         <span className="text-sm">Delete</span>
       </button>
       <ModalDialog
-        size="sm"
+        size="xs"
         centered
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         onClose={() => setIsOpen(false)}
         showBackdrop
         onConfirm={() => {
-          // eslint-disable-next-line no-console
-          console.log('confirmed')
+          mutate({
+            id: props.id
+          })
         }}
         confirmText="Delete"
       >

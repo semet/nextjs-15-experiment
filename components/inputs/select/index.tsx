@@ -21,6 +21,7 @@ export const Select = <T extends Record<string, unknown>>(
     className,
     containerClassName,
     errorClassName,
+    disabled,
     labelClassName,
     required,
     isSearchable = false,
@@ -69,6 +70,7 @@ export const Select = <T extends Record<string, unknown>>(
               }}
               value={field.value}
               isSearchable={isSearchable}
+              isDisabled={disabled}
               className={twMerge([className])}
               styles={{
                 control: (base, state) => ({
@@ -86,12 +88,14 @@ export const Select = <T extends Record<string, unknown>>(
                   '&:hover': {
                     borderColor: state.isFocused ? '#5d86ff' : '#d1d5db'
                   },
-                  boxShadow: 'none'
+                  boxShadow: 'none',
+                  backgroundColor: state.isDisabled ? '#e5e7eb' : 'white'
                 }),
                 menu: (base) => ({
                   ...base,
                   fontSize: '0.875rem'
                 }),
+
                 indicatorSeparator: () => ({
                   display: 'none'
                 }),

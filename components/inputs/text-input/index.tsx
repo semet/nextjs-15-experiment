@@ -52,7 +52,7 @@ export const TextInput = <T extends Record<string, unknown>>(
           type={type}
           id={id ?? generatedId}
           className={twMerge([
-            'w-full rounded text-gray-700 focus:border-primary focus:ring-0',
+            'w-full rounded text-gray-700 focus:border-primary focus:ring-0 disabled:bg-gray-200 disabled:text-gray-400',
             size === 'sm'
               ? 'px-2 py-1.5 text-sm'
               : size === 'md'

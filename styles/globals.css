@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.Toastify__toast--success {
+  @apply bg-primary !important;
+}
+.Toastify__toast--error {
+  @apply bg-rose-600 !important;
+}
