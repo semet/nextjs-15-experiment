@@ -4,8 +4,8 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { MdOutlineEdit } from 'react-icons/md'
 import { toast } from 'react-toastify'
 
-import { Select, TextInput } from '@/components/inputs'
-import { ModalDialog } from '@/components/ui'
+import { Select, SubmitButton, TextInput } from '@/components/inputs'
+import { SidePanel } from '@/components/ui'
 import { batchMutationKeys } from '@/factories/mutation'
 import { batchKey } from '@/factories/query'
 import { updateBatchRequest } from '@/features/batch'
@@ -41,7 +41,7 @@ export const EditBatch: FC<Props> = (props) => {
     }
   })
 
-  const { handleSubmit } = fromMethods
+  const { handleSubmit, reset } = fromMethods
 
   const { mutate, isPending } = useMutation({
     mutationKey: batchMutationKeys.update(batch.id),
@@ -58,6 +58,15 @@ export const EditBatch: FC<Props> = (props) => {
     }
   })
 
+  const onSubmit = handleSubmit((data) => {
+    mutate(data)
+  })
+
+  const onClose = () => {
+    setIsOpen(false)
+    reset()
+  }
+
   return (
     <Fragment>
       <button
@@ -67,23 +76,18 @@ export const EditBatch: FC<Props> = (props) => {
         <MdOutlineEdit />
         <span className="text-sm">Edit</span>
       </button>
-      <ModalDialog
-        size="sm"
+      <SidePanel
         isOpen={isOpen}
-        isLoading={isPending}
+        isLoading={false}
         setIsOpen={setIsOpen}
-        onClose={() => setIsOpen(false)}
-        showBackdrop
-        onConfirm={() => {
-          handleSubmit((data) => {
-            mutate(data)
-          })()
-        }}
+        onClose={onClose}
         title="Edit Batch"
-        confirmText="Save"
       >
         <FormProvider {...fromMethods}>
-          <form className="flex flex-col gap-2">
+          <form
+            onSubmit={onSubmit}
+            className="flex flex-col gap-4"
+          >
             <Select<TEditBatch>
               name="departmentId"
               label="Department"
@@ -100,9 +104,14 @@ export const EditBatch: FC<Props> = (props) => {
               label="Alias"
               disabled={isPending}
             />
+
+            <SubmitButton
+              onCancel={onClose}
+              isLoading={isPending}
+            />
           </form>
         </FormProvider>
-      </ModalDialog>
+      </SidePanel>
     </Fragment>
   )
 }
